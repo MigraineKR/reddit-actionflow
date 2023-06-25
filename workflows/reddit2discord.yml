@@ -1,0 +1,17 @@
+name: Send a Discord message when new RSs feeds update
+on:
+  rss:
+    url: https://www.reddit.com/r/headache/new.rss
+jobs:
+  discord:
+    name: Send a message to discord
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_REDDIT }}
+          DISCORD_USERNAME: ${{ secrets.DISCORD_USERNAME_REDDIT }}
+          DISCORD_AVATAR: ${{ secrets.DISCORD_AVATAR_REDDIT }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "`headache - Reddit - New`'\n'**${{on.rss.outputs.title}}**'\n'${{on.rss.outputs.link}}"
