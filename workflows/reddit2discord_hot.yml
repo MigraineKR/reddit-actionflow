@@ -14,4 +14,4 @@ jobs:
           DISCORD_AVATAR: ${{ secrets.DISCORD_AVATAR_REDDIT }}
         uses: Ilshidur/action-discord@master
         with:
-          args: "`headache - Reddit - Hot 🔥`'\n'**${{on.rss.outputs.title}}**'\n'${{on.rss.outputs.link}}"
+          args: "`headache - Reddit - Hot by. ${{on.rss.outputs.author}} 🔥`'\n'**${{on.rss.outputs.title}}**'\n'${{on.rss.outputs.link}}"
