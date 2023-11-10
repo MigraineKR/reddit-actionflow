@@ -1,7 +1,7 @@
 name: Send a Discord message when new RSS feeds update
 on:
   rss:
-    url: https://www.reddit.com/r/migraine/rising.rss
+    url: https://www.reddit.com/r/headache/rising.rss
 jobs:
   discord:
     name: Send a message to discord
@@ -14,4 +14,4 @@ jobs:
           DISCORD_AVATAR: ${{ secrets.DISCORD_AVATAR_REDDIT }}
         uses: Ilshidur/action-discord@master
         with:
-          args: "'`'headache - Reddit - Rising by. ${{on.rss.outputs.author}}'`''\n'**${{on.rss.outputs.title}}**'\n'${{on.rss.outputs.link}}"
+          args: "'`headache - Reddit - Rising by. ${{on.rss.outputs.author}}`''\n'**${{on.rss.outputs.title}}**'\n'${{on.rss.outputs.link}}"
