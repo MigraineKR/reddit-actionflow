@@ -1,7 +1,7 @@
-name: Send a Discord message when new RSS feeds update
+name: Send a Discord message when new new posts in subreddit
 on:
-  rss:
-    url: https://www.reddit.com/r/headache/new.rss
+  reddit:
+    url: https://www.reddit.com/r/headache/new/
 jobs:
   discord:
     name: Send a message to discord
@@ -10,8 +10,8 @@ jobs:
       - name: Escape Quotes
         id: escape
         run: |
-          title="${{on.rss.outputs.title}}"
-          escaped_title=$(echo "$title" | sed "s/'/\\\'/g" | sed 's/"/\\"/g')
+          title="${{on.reddit.outputs.title}}"
+          escaped_title=$(echo "$TITLE" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed "s/'/\\\'/g" | sed 's/\$/\\$/g' | sed 's/`/\\`/g' | sed 's/|/\\|/g' | sed 's/\?/\\?/g' | sed 's/\*/\\*/g' | sed 's/+/\\+/g' | sed 's/(/\\(/g' | sed 's/)/\\)/g' | sed 's/{/\\{/g' | sed 's/}/\\}/g' | sed 's/\[/\\[/g' | sed 's/\]/\\]/g' | sed 's/;/\\;/g' | sed 's/&/\\&/g' | sed 's/\^/\\^/g' | sed 's/%/\\%/g' | sed 's/#/\\#/g' | sed 's/@/\\@/g' | sed 's/!/\\!/g' | sed 's/</\\</g' | sed 's/>/\\>/g' | sed 's/~/\\~/g')
           echo "::set-output name=escaped_title::$escaped_title"
       - name: Discord notification
         env:
@@ -20,4 +20,4 @@ jobs:
           DISCORD_AVATAR: ${{ secrets.DISCORD_AVATAR_REDDIT }}
         uses: Ilshidur/action-discord@master
         with:
-          args: "`Headache - Reddit - New by. ${{on.rss.outputs.author}} 🆕`'\n'**${{steps.escape.outputs.escaped_title}}**'\n'${{on.rss.outputs.link}}"
+          args: "`Headache - Reddit - New by. ${{on.reddit.outputs.author}} 🆕`'\n'**${{steps.escape.outputs.escaped_title}}**'\n'${{on.reddit.outputs.link}}"
